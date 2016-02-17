@@ -1,0 +1,18 @@
+<h1>Questions</h1>
+<table border="1">
+  <tr>
+    <th>No</th>
+    <th>Title</th>
+    <th>Subject</th>
+  </tr>
+
+  <% @user.posts.each do |post| %>
+    <tr>
+      <td><a href="/post/<%= post.id%>"> <%= post.id %> </a></td>
+      <td><%= post.title %></td>
+      <td><%= post.subject %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><a href="/">Home</a></p>

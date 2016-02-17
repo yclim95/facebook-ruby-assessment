@@ -1,0 +1,47 @@
+<h1> Question <%= @post.id %> </h1>
+
+<h2>Title : <%= @post.title %> </h2>
+
+<h2>Subject : <%= @post.subject %> </h2>
+
+
+<% if current_user.validate_post_like(current_user,@post) %>
+  <input type="submit" value="Like" id="question_vote">
+  <input type="button" disabled value="<%= @post.liked_posts.count %>" > 
+
+<% else %>
+	<% if current_user.user_liked_for_posts?(@post) %>
+	<form method="post" action="/posts/<%=@post.id%>/post_votes/:post_like_id/update">
+	  <input type="submit" value="Like">
+	  <input type="button" disabled value="<%= @post.liked_posts.count %>" > 
+	</form>
+	<% else %>
+	  <input type="submit" disabled value="Like">
+	  <input type="button" disabled value="<%= @post.liked_posts.count %>" > 
+
+	<form method="post" action="/posts/<%=@post.id%>/post_votes/:post_like_id/delete">
+		  <input type="submit" value="Unlike">
+	</form>
+	<% end %>
+<% end %>
+
+
+<form method="post" action="/comments/posts/<%=@post.id%>">
+ <textarea placeholder="Comment" name="comment[text]"></textarea>
+ <input type="submit" value="Comment">
+</form>
+
+
+<hr>
+
+<h1>Answers</h1>
+<% if @comments.empty? %>  <!-- If comment is NOTHING  -->
+ <p>There is no Answer posted yet!</p>
+<% else %>  <!-- If comment got VALUE -->
+	<% @comments.each do |comment| %>
+	  <textarea readonly><%= comment.text %></textarea>
+	  <br>
+	<% end %>
+<% end %>
+
+<p><a href="/">Home</a></p>

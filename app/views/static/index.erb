@@ -1,2 +1,32 @@
-<h1>Hello World</h1>
-<p>See Me in views/static/index.html.erb</p>
+<% user = current_user %>
+<% if logged_in?%>
+	<p>Hello, <%=user.user_name %> </p>
+	<p><a href="/user/signout">Sign Out</a></p>
+	<p><a href="/post/new">Create Post</a></p>
+	<p><a href="/user/<%= user.id %>">User Profile</a></p>
+
+	<h1>Questions</h1>
+	<% if @posts.empty? %>
+		<p>There is no Question posted yet!</p>
+	<% else %>
+		<table border="1">
+		  <tr>
+		    <th>No</th>
+		    <th>Title</th>
+		    <th>Subject</th>
+		  </tr>
+
+		  <% @posts.each do |post| %>
+		    <tr>
+		      <td><a href="/post/<%= post.id%>"> <%= post.id %> </a></td>
+		      <td><%= post.title %></td>
+		      <td><%= post.subject %></td>
+		    </tr>
+		  <% end %>
+		</table>
+	<% end %>
+	
+<% else %>
+ <p><a href="/user/sign_in">Sign in</a></p>
+ <p><a href="/user/login">Log in</a></p>
+<% end %>
