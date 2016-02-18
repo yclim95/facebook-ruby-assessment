@@ -31,12 +31,41 @@ class User < ActiveRecord::Base
 		 post && post.user != self && !post_likes.exists?(post_id: post.id)
 	end
 
-	def validate_post_like(user,post)
-	if user.id == post.user.id
-	 return true
-	else
-	 return false 
+	def user_liked_for_comments?(comment) 
+		# Check (when current user posted) --> return false if user try to post answer
+		#post.user == self
+		 comment && comment.user != self && !comment_likes.exists?(comment_id: comment.id)
 	end
+
+	def validate_post_like(user,post)
+		if user.id == post.user.id
+			 return true
+		else
+			 return false 
+		end
+	end
+
+	def validate_comment_like(user,comment)
+		if user.id == comment.user.id
+			 return true
+		else
+			 return false 
+		end
+	end
+
+
+	def self.validate_post(user)
+		@post = Post.find_by(user_id: user.id)
+
+		if @post.nil?
+			return false 
+		else
+			if @post.user_id == user.id
+				 return true
+			else
+				 return false 
+			end
+		end
 	end
 
 end

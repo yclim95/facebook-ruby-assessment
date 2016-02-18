@@ -10,6 +10,10 @@
 	<body>
 		<h1>Facebook</h1>
 		<hr>
+		<% if logged_in? %>
+		 <p>Dear, <%= current_user.user_name %></p>
+		 <br>
+		<% end %>
 		<%= yield %>
 	</body>
 </html>

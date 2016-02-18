@@ -2,15 +2,13 @@
 <table border="1">
   <tr>
     <th>No</th>
-    <th>Title</th>
-    <th>Subject</th>
+    <th>Post Content</th>
   </tr>
 
   <% @user.posts.each do |post| %>
     <tr>
       <td><a href="/post/<%= post.id%>"> <%= post.id %> </a></td>
-      <td><%= post.title %></td>
-      <td><%= post.subject %></td>
+      <td><%= post.text %></td>
     </tr>
   <% end %>
 </table>

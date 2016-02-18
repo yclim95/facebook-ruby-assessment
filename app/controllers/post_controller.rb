@@ -13,6 +13,28 @@ post '/post/new' do
 	end
 end
 
+post '/post/:post_id/edit' do
+  @post = current_user.posts.find(params[:post_id])
+  if @post 
+    @post.text = params[:post_content]
+    @post.save
+    redirect '/'
+  end
+end
+
+get '/post/:post_id/edit' do
+  @post = current_user.posts.find(params[:post_id])
+  erb :"post/edit"
+end
+
+
+delete '/post/:post_id/delete' do
+  @post = current_user.posts.find(params[:post_id])
+  @post.destroy
+  redirect '/'
+end
+
+
 get '/post/:post_id' do
 	@user = current_user
 	@post = Post.find(params[:post_id])

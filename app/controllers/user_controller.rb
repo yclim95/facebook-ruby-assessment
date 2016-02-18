@@ -33,11 +33,12 @@ post '/user/login' do
 	end
 end
 
-get'/users/questions' do  # List of questions posted by the user
+get'/users/posts' do  # List of questions posted by the user
   @user = current_user 
   erb :"user/questions"
 end
 
+# show current user profile page
 get '/user/:user_id' do
 	erb :"user/profile"
 end

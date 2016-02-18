@@ -1,8 +1,6 @@
-<h1> Question <%= @post.id %> </h1>
+<h1> Post <%= @post.id %> </h1>
 
-<h2>Title : <%= @post.title %> </h2>
-
-<h2>Subject : <%= @post.subject %> </h2>
+<h2>Content : <%= @post.text %> </h2>
 
 
 <% if current_user.validate_post_like(current_user,@post) %>
@@ -34,14 +32,52 @@
 
 <hr>
 
-<h1>Answers</h1>
+<h1>Comments</h1>
 <% if @comments.empty? %>  <!-- If comment is NOTHING  -->
- <p>There is no Answer posted yet!</p>
+ <p>There is no Comment posted yet!</p>
 <% else %>  <!-- If comment got VALUE -->
-	<% @comments.each do |comment| %>
-	  <textarea readonly><%= comment.text %></textarea>
-	  <br>
-	<% end %>
+	<table style="display: inline-table	">
+		<% @comments.each do |comment| %>	 
+		<tr style="display: inline-block;">
+			<div>
+				<td> <textarea readonly><%= comment.text %></textarea></td>
+					<div>
+						  <% if current_user.validate_comment_like(current_user,comment) %>
+		<input type="submit" value="Like" id="comment_like">
+		<input type="button" disabled value="<%= comment.liked_comments.count %>" > 
+	  <% else %>
+	    <% if current_user.user_liked_for_comments?(comment) %>
+			<form method="post" action="/comments/<%= comment.id %>/comment_likes/:comment_like_id/update">
+			<input type="submit" value="Like">
+			<input type="button" disabled value="<%= comment.liked_comments.count %>" > 
+			</form>
+	    <% else %>
+			 <input type="submit" disabled value="Like">
+			<input type="button" disabled value="<%= comment.liked_comments.count %>" > 
+
+			<form method="post" action="/comments/<%= comment.id %>/comment_likes/:comment_like_id/delete">
+			  <input type="submit" value="Unlike">
+			</form>
+	    <% end %>
+	  <% end %>
+						<% if current_user.id == comment.user.id %>
+							<td>
+								<a href="/comments/<%=comment.id%>/edit"><input type="submit" value="Edit"></a>
+							</td>
+							<td>
+								<form method="post" action="/comments/<%=comment.id%>/delete">
+								<input type='hidden' name='_method' value='delete'>
+								<input type="submit" value="Delete" > 
+								</form>
+							</td>
+						<% end %>
+					</div>
+			</div>
+
+		</tr>
+		<% end %>
+	</table>
+	
 <% end %>
 
 <p><a href="/">Home</a></p>

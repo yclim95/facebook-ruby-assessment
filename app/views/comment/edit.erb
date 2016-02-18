@@ -1,0 +1,14 @@
+<h1>Comment <%= @comment.id %> </h1>
+
+<h2><textarea readonly><%= @comment.text %></textarea></h2>
+
+
+<form method="post" action="/comments/<%=@comment.id%>/edit">
+
+  <input type="text" placeholder="comment" name="text">
+  <input type="submit" value="Post">
+
+</form>
+
+<p><a href="/">Home</a></p>
+

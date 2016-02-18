@@ -1,0 +1,20 @@
+<!--
+	  <% #if current_user.validate_comment_like(current_user,comment) %>
+		<input type="submit" value="Like" id="comment_like">
+		<input type="button" disabled value="<%= comment.liked_comments.count %>" > 
+	  <% #else %>
+	    <% #if current_user.user_liked_for_comments?(comment) %>
+			<form method="post" action="/comments/<%= comment.id %>/comment_likes/:comment_like_id/update">
+			<input type="submit" value="Like">
+			<input type="button" disabled value="<%= comment.liked_comments.count %>" > 
+			</form>
+	    <% #else %>
+			 <input type="submit" disabled value="Like">
+			<input type="button" disabled value="<%= comment.liked_comments.count %>" > 
+
+			<form method="post" action="/comments/<%= comment.id %>/comment_likes/:comment_like_id/delete">
+			  <input type="submit" value="Unlike">
+			</form>
+	    <% #end %>
+	  <% #end %>
+    -->

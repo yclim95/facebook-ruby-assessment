@@ -29,3 +29,29 @@ get '/comments/posts/:post_id' do
   @comments = Comment.where(post_id: @post.id)
   erb :"post/index"
 end
+
+
+# Display user comment 
+get '/comments/:comment_id/edit' do
+  @comment = current_user.comments.find(params[:comment_id])
+  erb :"comment/edit"
+end
+
+#Update user comment 
+post '/comments/:comment_id/edit' do
+  @comment = current_user.comments.find(params[:comment_id])
+
+  if @comment
+    @comment.text = params[:text]
+    @comment.save
+    redirect "/post/#{@comment.post.id}"
+  end
+end
+
+
+delete '/comments/:comment_id/delete' do
+  @comment = current_user.comments.find(params[:comment_id])
+  @comment.destroy
+
+  redirect "/post/#{@comment.post.id}"
+end

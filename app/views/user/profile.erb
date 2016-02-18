@@ -5,3 +5,35 @@
 <p>Email: <%= user.email %> </p>
 
 <p><a href="/">Home</a></p>
+
+<h2>My Posts</h2>
+<% user.posts.each_with_index do |post,index| %>
+  <p>
+  <%= post.id %>: <textarea readonly><%= post.text %></textarea>
+  </p>
+<% end %>
+
+<br>
+<% byebug %>
+<% if current_user.comments.empty? %>
+  <p>No records of commented posts by you</p>
+<% else %>
+	<h2>My Comments</h2>
+
+	<% current_user.comments.each do |comment| %>
+		<div class="question_container">
+			<div class="center">
+				<span>
+					<textarea readonly><%= comment.post.text %></textarea>
+				</span>
+			</div>
+			<div class="comment">
+				<span>
+					<textarea readonly><%= comment.text %></textarea>
+				</span>
+			</div>
+		</div>
+		<br>
+
+	<% end %>
+<% end %>
